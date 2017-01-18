@@ -2,6 +2,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import tensorflow as tf
+
 from tensorflow.contrib import layers
 from tensorflow.contrib.framework.python.ops import arg_scope
 from tensorflow.contrib.layers.python.layers import layers as layers_lib
@@ -11,6 +13,8 @@ from tensorflow.python.ops import array_ops
 from tensorflow.python.ops import init_ops
 from tensorflow.python.ops import nn_ops
 from tensorflow.python.ops import variable_scope
+
+slim = tf.contrib.slim
 
 def vgg_16_base(inputs,
            num_classes=1000,
@@ -146,3 +150,32 @@ def vgg_16(images,
       tf.contrib.layers.summaries.summarize_activation(v)
 
   return net
+
+def build_image_embeddings(self):
+    """Builds the image model subgraph and generates image embeddings.
+    Inputs:
+      self.images
+    Outputs:
+      self.image_embeddings
+    """
+    vgg_output = image_embedding.vgg_16(
+        self.images,
+        trainable=self.train_vgg,
+        is_training=self.is_training())
+    self.vgg_variables = tf.get_collection(
+        tf.GraphKeys.GLOBAL_VARIABLES, scope="vgg_16")
+
+    # Map VGG output into embedding space.
+    with tf.variable_scope("image_embedding") as scope:
+      image_embeddings = tf.contrib.layers.fully_connected(
+          inputs=vgg_output,
+          num_outputs=self.config.embedding_size,
+          activation_fn=None,
+          weights_initializer=self.initializer,
+          biases_initializer=None,
+          scope=scope)
+
+    # Save the embedding size in the graph.
+    tf.constant(self.config.embedding_size, name="embedding_size")
+
+    self.image_embeddings = image_embeddings
