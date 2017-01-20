@@ -14,7 +14,9 @@ from tensorflow.python.ops import init_ops
 from tensorflow.python.ops import nn_ops
 from tensorflow.python.ops import variable_scope
 
-def build_model(self):
+import configuration
+
+def build_model(image_embeddings, seq_embeddings, target_seqs, input_mask, mode='train'):
     """Builds the model.
     Inputs:
       self.image_embeddings
@@ -29,28 +31,31 @@ def build_model(self):
     # This LSTM cell has biases and outputs tanh(new_c) * sigmoid(o), but the
     # modified LSTM in the "Show and Tell" paper has no biases and outputs
     # new_c * sigmoid(o).
-    lstm_cell = tf.contrib.rnn.BasicLSTMCell(
-        num_units=self.config.num_lstm_units, state_is_tuple=True)
-    if self.mode == "train":
+
+    config = configuration.ModelConfig()
+
+    lstm_cell = tf.nn.rnn_cell.BasicLSTMCell(
+        num_units=config.num_lstm_units, state_is_tuple=True)
+    if mode == "train":
       lstm_cell = tf.contrib.rnn.DropoutWrapper(
           lstm_cell,
-          input_keep_prob=self.config.lstm_dropout_keep_prob,
-          output_keep_prob=self.config.lstm_dropout_keep_prob)
+          input_keep_prob=config.lstm_dropout_keep_prob,
+          output_keep_prob=config.lstm_dropout_keep_prob)
 
     with tf.variable_scope("lstm", initializer=self.initializer) as lstm_scope:
       # Feed the image embeddings to set the initial LSTM state.
       zero_state = lstm_cell.zero_state(
-          batch_size=self.image_embeddings.get_shape()[0], dtype=tf.float32)
-      _, initial_state = lstm_cell(self.image_embeddings, zero_state)
+          batch_size=image_embeddings.get_shape()[0], dtype=tf.float32)
+      _, initial_state = lstm_cell(image_embeddings, zero_state)
 
       # Allow the LSTM variables to be reused.
       lstm_scope.reuse_variables()
 
       
       # Run the batch of sequence embeddings through the LSTM.
-      sequence_length = tf.reduce_sum(self.input_mask, 1)
+      sequence_length = tf.reduce_sum(input_mask, 1)
       lstm_outputs, _ = tf.nn.dynamic_rnn(cell=lstm_cell,
-                                          inputs=self.seq_embeddings,
+                                          inputs=seq_embeddings,
                                           sequence_length=sequence_length,
                                           initial_state=initial_state,
                                           dtype=tf.float32,
@@ -62,13 +67,13 @@ def build_model(self):
     with tf.variable_scope("logits") as logits_scope:
       logits = tf.contrib.layers.fully_connected(
           inputs=lstm_outputs,
-          num_outputs=self.config.vocab_size,
+          num_outputs=config.vocab_size,
           activation_fn=None,
           weights_initializer=self.initializer,
           scope=logits_scope)
 
-    targets = tf.reshape(self.target_seqs, [-1])
-    weights = tf.to_float(tf.reshape(self.input_mask, [-1]))
+    targets = tf.reshape(target_seqs, [-1])
+    weights = tf.to_float(tf.reshape(input_mask, [-1]))
 
     # Compute losses.
     losses = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=targets,
@@ -85,6 +90,6 @@ def build_model(self):
     for var in tf.trainable_variables():
       tf.summary.histogram("parameters/" + var.op.name, var)
 
-    self.total_loss = total_loss
-    self.target_cross_entropy_losses = losses  # Used in evaluation.
-    self.target_cross_entropy_loss_weights = weights  # Used in evaluation.
+    total_loss = total_loss
+    target_cross_entropy_losses = losses  # Used in evaluation.
+    target_cross_entropy_loss_weights = weights  # Used in evaluation.

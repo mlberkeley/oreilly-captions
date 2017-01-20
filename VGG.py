@@ -57,7 +57,8 @@ def vgg_16_base(inputs,
       end_points = utils.convert_collection_to_dict(end_points_collection)
       end_points[sc.name+'/p5']=net
       return net,end_points
-vgg_16.default_image_size = 224
+
+#vgg_16.default_image_size = 224
 
 def vgg_16(images,
                  trainable=True,
