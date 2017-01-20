@@ -2,3 +2,5 @@
 *.txt
 *.npy
 *.h5
+*.json
+*.mat
