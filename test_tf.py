@@ -175,6 +175,7 @@ def _create_vocab(captions, min_word_count=4):
 if __name__ == "__main__":
     # Truncate for testing
     n = 10
+    batch_size = 64
 
     dataset = 'flickr8k'
     dp = BasicDataProvider(dataset)
@@ -189,11 +190,15 @@ if __name__ == "__main__":
             images_and_captions.append( [im['feat'], caption] )
 
     input_vals = inputs.batch_with_dynamic_pad(images_and_captions,
-                                                            batch_size=64,
-                                                            queue_capacity=100,
+                                                            batch_size=batch_size,
+                                                            queue_capacity=2*batch_size,
                                                             add_summaries=True)
 
     image_embeddings, input_seqs, target_seqs, input_mask = input_vals
+    print(image_embeddings.get_shape())
+    print(input_seqs.get_shape())
+    print(target_seqs.get_shape())
+    print(input_mask.get_shape())
 
     model_config = configuration.ModelConfig()
     train_vgg = False
