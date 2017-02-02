@@ -4,7 +4,7 @@ import os
 import tensorflow as tf
 import numpy as np
 import pandas as pd
-import _pickle
+import pickle
 
 #from tensorflow.models.rnn import rnn_cell
 import tensorflow.python.platform
@@ -89,8 +89,9 @@ class Caption_Generator():
     def build_generator(self, maxlen):
         image = tf.placeholder(tf.float32, [1, self.dim_image])
         image_emb = tf.matmul(image, self.encode_img_W) + self.encode_img_b
-
-        state = tf.zeros([1, self.lstm.state_size])
+        print self.lstm.state_size[0],self.lstm.state_size[1]
+        #state = tf.zeros([1,self.lstm.state_size[0],self.lstm.state_size[1]])
+        state = self.lstm.zero_state(1,tf.float32)
         #last_word = image_emb # 첫 단어 대신 이미지
         generated_words = []
 
@@ -203,6 +204,9 @@ def train():
     train_op = tf.train.AdamOptimizer(learning_rate).minimize(loss)
     tf.initialize_all_variables().run()
 
+    saver.restore(sess,tf.train.latest_checkpoint(model_path))
+
+
     for epoch in range(n_epochs):
         #train_op = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
         for start, end in zip( \
@@ -234,15 +238,16 @@ def train():
             print("Current Cost: ", loss_value)
 
         print("Epoch ", epoch, " is done. Saving the model ... ")
-        saver.save(sess, os.path.join(model_path, 'model'), global_step=epoch)
+        saver.save(sess, os.path.join(model_path, 'model'), global_step=epoch+9)
         learning_rate *= 0.95
 
-def test(test_feat='./guitar_player.npy', model_path='./models/tensorflow/model-1', maxlen=30): # Naive greedy search
+def test(test_feat='./guitar_player.npy', maxlen=30): # Naive greedy search
 
     ixtoword = np.load('data/ixtoword.npy').tolist()
     n_words = len(ixtoword)
 
-    feat = [np.load(test_feat)]
+    feats, captions = get_caption_data(annotation_path, feat_path)
+    feat = np.array([feats[0]])
     sess = tf.InteractiveSession()
     caption_generator = Caption_Generator(
            dim_image=dim_image,
@@ -256,12 +261,13 @@ def test(test_feat='./guitar_player.npy', model_path='./models/tensorflow/model-
     # 이 부분이 존나 중요함. 계속 caption_generator를 가져온 뒤 바로 restore를 했었는데,
     # TensorFlow의 LSTM은 call을 한 뒤에 weight가 만들어지기 때문에 build_generator보다 뒤쪽에서 restore를 해야 함.
     saver = tf.train.Saver()
-    saver.restore(sess, model_path)
+    saver.restore(sess, tf.train.latest_checkpoint(model_path))
 
     generated_word_index= sess.run(generated_words, feed_dict={image:feat})
     generated_word_index = np.hstack(generated_word_index)
 
     generated_sentence = [ixtoword[x] for x in generated_word_index]
+    print generated_sentence
 
 
 def read_image(path):
@@ -316,4 +322,12 @@ def test_tf(test_image_path=None, model_path='./models/model-72', maxlen=30):
     print(generated_sentence)
 
 if __name__ == "__main__":
-    train()
+    import sys
+    if sys.argv[-1]=='train':
+        train()
+    elif sys.argv[-1]=='test':
+	test()
+    elif sys.argv[-1]=='test_tf':
+        test_tf()
+    else:
+        print 'whut'
