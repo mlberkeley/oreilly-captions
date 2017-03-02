@@ -1,6 +1,11 @@
 # Caption This!
 This repo contains material for our TF caption generation from images article.
 
+# Docker
+*Running with Docker is highly recommended*
+Our Notebookes were written with the release of TF 1.0 which is undergoing numerous changes at the time of this release. Use the Dockerfiles provided in `./dockerfiles/` to ensure that the provided notebooks work in your environment.
+
+
 # The Notebooks
 There are three notebooks:
 * `O'Reilly Training.ipynb` - Contains code to train a tensorflow caption generator from a VGG16 word embedding.
