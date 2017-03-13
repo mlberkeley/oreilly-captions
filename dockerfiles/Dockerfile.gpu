@@ -1,0 +1,86 @@
+
+# Set the base image to Ubuntu
+FROM tensorflow/tensorflow:latest-gpu-py3
+
+# File Author / Maintainer
+MAINTAINER Raul Puri
+
+# Install cuda
+ENV NVIDIA_GPGKEY_SUM bd841d59a27a406e513db7d405550894188a4c1cd96bf8aa4f82f1b39e0b5c1c
+ENV NVIDIA_GPGKEY_FPR 889bee522da690103c4b085ed88c3d385c37d3be
+ENV CUDA_VERSION 8.0
+
+ENV CUDA_PKG_VERSION 8-0=8.0-61
+
+RUN apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/GPGKEY && \
+    apt-key adv --export --no-emit-version -a $NVIDIA_GPGKEY_FPR | tail -n +2 > cudasign.pub && \
+    echo "$NVIDIA_GPGKEY_SUM  cudasign.pub" | sha256sum -c --strict - && rm cudasign.pub && \
+    echo "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64 /" > /etc/apt/sources.list.d/cuda.list
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libboost-all-dev && \
+    apt-get install -y software-properties-common \
+    git \
+    wget \
+    cmake \
+    python-zmq \
+    python-dev \
+    libzmq3-dev \
+    libssl-dev \
+    libgflags-dev \
+    libgoogle-glog-dev \
+    liblmdb-dev \
+    libatlas-base-dev \
+    libblas-dev \
+    liblapack-dev \
+    libgflags-dev \
+    libgoogle-glog-dev \
+    liblmdb-dev \
+    libprotobuf-dev \
+    libleveldb-dev \
+    libsnappy-dev \
+    libopencv-dev \
+    libhdf5-serial-dev \
+    protobuf-compiler \
+    python-tk
+
+
+RUN wget -qO - http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/7fa2af80.pub | sudo apt-key add - && \
+	apt-get update && apt-get install -y --no-install-recommends --force-yes \
+        cuda-core-$CUDA_PKG_VERSION \
+        cuda-misc-headers-$CUDA_PKG_VERSION \
+        cuda-command-line-tools-$CUDA_PKG_VERSION \
+        cuda-license-$CUDA_PKG_VERSION \
+        cuda-nvrtc-dev-$CUDA_PKG_VERSION \
+        cuda-cusolver-dev-$CUDA_PKG_VERSION \
+        cuda-cublas-dev-$CUDA_PKG_VERSION \
+        cuda-cufft-dev-$CUDA_PKG_VERSION \
+        cuda-curand-dev-$CUDA_PKG_VERSION \
+        cuda-cusparse-dev-$CUDA_PKG_VERSION \
+        cuda-npp-dev-$CUDA_PKG_VERSION \
+        cuda-cudart-dev-$CUDA_PKG_VERSION \
+        cuda-driver-dev-$CUDA_PKG_VERSION && \
+    cd /tmp && apt-get download gpu-deployment-kit && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /tmp/gpu-deployment-kit && cd /tmp/gpu-deployment-kit && \
+    dpkg -x /tmp/gpu-deployment-kit_*.deb . && \
+    mv usr/include/nvidia/gdk/* /usr/local/cuda/include && \
+    mv usr/src/gdk/nvml/lib/* /usr/local/cuda/lib64/stubs && \
+    rm -rf /tmp/gpu-deployment-kit*
+
+RUN echo "/usr/local/cuda/lib" >> /etc/ld.so.conf.d/cuda.conf && \
+    echo "/usr/local/cuda/lib64" >> /etc/ld.so.conf.d/cuda.conf && \
+    ldconfig
+
+RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
+    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+
+COPY requirements.txt /root
+RUN pip install keras nose Cython
+RUN pip install -r /root/requirements.txt
+RUN rm /root/requirements.txt
+
+WORKDIR /root
+
+CMD ["/bin/bash"]
