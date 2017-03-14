@@ -23,7 +23,7 @@ There are three notebooks:
 # Additional Downloads:
 In order to run the first two notebooks you will need VGG-16 image embeddings for the Flikr-30K dataset. These image embeddings are available from our [google drive](https://drive.google.com/file/d/0B5o40yxdA9PqTnJuWGVkcFlqcG8/view?usp=sharing).
 
-Additionally, you will need the corresponding captions for these images, which can also be downloaded from our [google drive]()
+Additionally, you will need the corresponding captions for these images, which can also be downloaded from our [google drive](https://drive.google.com/file/d/0B2vTU3h54lTydXFjSVM5T2t4WmM/view?usp=sharing)
 
 In order to run the `O'Reilly Generate from image.ipynb` notebook you will need to download a pretrained tensorflow model for [VGG-16](https://drive.google.com/file/d/0B2vTU3h54lTyaDczbFhsZFpsUGs/view?usp=sharing) generated from the original Caffe model from the VGG-16 paper. We've linked to ry's `vgg-16.tfmodel` as it is the original opensource port of vgg16 to tensorflow. 
 
