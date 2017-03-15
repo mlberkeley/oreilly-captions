@@ -1,5 +1,5 @@
 # Caption This!
-This repo contains material for our TF caption generation from images article.
+This repo contains material for our TF [caption generation from images article]( https://www.oreilly.com/learning/caption-this-with-tensorflow).
 
 # Docker
 *Running with Docker is highly recommended*
