@@ -9,7 +9,7 @@ This repository contains source code corresponding to our article ["Caption this
 **Running with Docker is highly recommended**
 You can find platform-specific installation instructions for Docker [here](https://docs.docker.com/engine/installation/#platform-support-matrix). Our iPython notebooks are compatible with TensorFlow 1.0.
 
-(*Recommended*) After installing Docker, pull a prebuilt image from our dockerhub with `docker pull mlatberkeley/showandtell`.
+(*Recommended*) After installing Docker, pull a prebuilt image from our dockerhub with `docker pull mlatberkeley/showandtell`. You will need a dockerhub account in order to pull the image (get one [here](https://hub.docker.com/)). If it's your first time pulling a docker image from dockerhub you will need to login to your dockerhub account from your terminal with `docker login`, and follow the username/password prompt onscreen.
 
 (We have however provided Dockerfiles in `./dockerfiles/` if the user would like to build a gpu or cpu-based docker image with `docker build -t <image_name> ./dockerfiles/`)
 
