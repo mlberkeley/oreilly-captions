@@ -1,17 +1,23 @@
 # Caption This!
-This repository contains source code corresponding to our article ["Caption this, with TensorFlow!"]( https://www.oreilly.com/learning/caption-this-with-tensorflow).
+This repository contains source code corresponding to our article ["Caption this, with TensorFlow!"]( https://www.oreilly.com/learning/caption-this-with-tensorflow) (published 3/20/2017).
+
+# Git Basics
+1. Go to your home directory with just a `cd` command
+2. Clone the repository with `git clone https://github.com/mlberkeley/oreilly-captions.git`
 
 # Docker
-*Running with Docker is highly recommended*
+**Running with Docker is highly recommended**
 You can find platform-specific installation instructions for Docker [here](https://docs.docker.com/engine/installation/#platform-support-matrix). Our iPython notebooks are compatible with TensorFlow 1.0.
 
-After installing Docker, either use the Dockerfiles provided in `./dockerfiles/` to build a docker image with `docker build -t <image_name> ./dockerfiles/`, or (recommended for cpu users) pull a prebuilt image from our dockerhub with `docker pull mlatberkeley/showandtell`.
+(*Recommended*) After installing Docker, pull a prebuilt image from our dockerhub with `docker pull mlatberkeley/showandtell`.
 
-To run the pulled image use `docker run -it -p 8888:8888 -v <path to ./oreilly-captions>:/root mlatberkeley/showandtell`. Substitute `mlatberkeley/showandtell` with the name of the docker image you built if you built your image using the Dockerfiles in `./dockerfiles`. 
+(We have however provided Dockerfiles in `./dockerfiles/` if the user would like to build a gpu or cpu-based docker image with `docker build -t <image_name> ./dockerfiles/`)
+
+To run the pulled image (after cloning and downloading the repository) use `docker run -it -p 8888:8888 -v <path to repo>:/root mlatberkeley/showandtell`. `<path to repo>` Should be the __absolute path__ to your cloned repository. If you followed our **Git Basics** section the path should be `<path to your home directory>/oreilly-captions`. (Substitute `mlatberkeley/showandtell` with the name of the docker image you built if you built your image using the Dockerfiles in `./dockerfiles`) 
 
 After building, starting, and attaching to the appropriate Docker container, run the provided jupyter notebooks with `jupyter notebook --ip 0.0.0.0` and follow the instructions on screen.
 
-*Note*
+**Note**
 If you are using Docker Toolbox as opposed to native Docker you will have to navigate to the Daemon IP adress (instead of 0.0.0.0) provided right after starting the Docker Quickstart Terminal (for us this was 192.168.99.100) in order to use jupyter.
 
 
