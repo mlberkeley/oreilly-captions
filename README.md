@@ -20,6 +20,15 @@ After building, starting, and attaching to the appropriate Docker container, run
 **Note**
 If you are using Docker Toolbox as opposed to native Docker you will have to navigate to the Daemon IP adress (instead of 0.0.0.0) provided right after starting the Docker Quickstart Terminal (for us this was 192.168.99.100) in order to use jupyter.
 
+### Debugging docker
+If you receive an error of the form:
+
+```
+WARNING: Error loading config file:/home/rp/.docker/config.json - stat /home/rp/.docker/config.json: permission denied
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.26/images/json: dial unix /var/run/docker.sock: connect: permission denied
+```
+
+It's most likely because you installed docker using sudo permissions with a packet manager such as `brew` or `apt-get`. To solve this `permission denied` simply run docker with `sudo` (ie. run `docker` commands with `sudo docker <command and options>` instead of just `docker <command and options>`). 
 
 # The Notebooks
 There are three notebooks:
