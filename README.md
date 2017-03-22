@@ -32,9 +32,9 @@ It's most likely because you installed docker using sudo permissions with a pack
 
 # The Notebooks
 There are three notebooks:
-* `O'Reilly Training.ipynb` - Contains code to train a TensorFlow caption generator from a VGG16 word embedding as described in our article. *Note:* you must run this notebook's `train` method before running any of the other notebooks in order to generate a mapping between integers and our vocabulary's words that will be reused in the other notebooks.
-* `O'Reilly Generate.ipynb` - Contains the same code as `O'Reilly Training.ipynb` except it introduces functionality to generate captions from an image embedding (as opposed to just being able to train on captions). Functions as a sanity check for the quality of captions we are generating.
-* `O'Reilly Generate from image.ipynb` - Builds on the previous notebook, except instead of feeding an image embedding to our caption generation model, it first feeds an image to the VGG-16 Convolutional Neural Network to generate an image feature embedding. This gives us an end-to-end pipeline for going from an image to a caption.
+* `1. O'Reilly Training.ipynb` - Contains code to train a TensorFlow caption generator from a VGG16 word embedding as described in our article. *Note:* you must run this notebook's `train` method before running any of the other notebooks in order to generate a mapping between integers and our vocabulary's words that will be reused in the other notebooks.
+* `2. O'Reilly Generate.ipynb` - Contains the same code as `1. O'Reilly Training.ipynb` except it introduces functionality to generate captions from an image embedding (as opposed to just being able to train on captions). Functions as a sanity check for the quality of captions we are generating.
+* `3. O'Reilly Generate from image.ipynb` - Builds on the previous notebook, except instead of feeding an image embedding to our caption generation model, it first feeds an image to the VGG-16 Convolutional Neural Network to generate an image feature embedding. This gives us an end-to-end pipeline for going from an image to a caption.
  * In order to run the test notebook edit the image path in the ipynb (more details in the `.ipynb` itself).
 
 # Additional Downloads:
@@ -42,6 +42,6 @@ In order to run the first two notebooks, you will need VGG-16 image embeddings f
 
 Additionally, you will need the corresponding captions for these images (`results_20130124.token`), which can also be downloaded from our [Google Drive](https://drive.google.com/file/d/0B2vTU3h54lTydXFjSVM5T2t4WmM/view?usp=sharing).
 
-In order to run the `O'Reilly Generate from image.ipynb` notebook you will need to download a pretrained TensorFlow model for [VGG-16](https://drive.google.com/file/d/0B2vTU3h54lTyaDczbFhsZFpsUGs/view?usp=sharing) generated from the original Caffe model from the VGG-16 paper. 
+In order to run the `3. O'Reilly Generate from image.ipynb` notebook you will need to download a pretrained TensorFlow model for [VGG-16](https://drive.google.com/file/d/0B2vTU3h54lTyaDczbFhsZFpsUGs/view?usp=sharing) generated from the original Caffe model from the VGG-16 paper. 
 
 Place all of these downloads in the `./data/` folder.
