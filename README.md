@@ -1,5 +1,5 @@
 # Caption This!
-This repository contains source code corresponding to our article ["Caption this, with TensorFlow!"]( https://www.oreilly.com/learning/caption-this-with-tensorflow) (published 3/22/2017 check out our [article preprint](https://github.com/mlberkeley/oreilly-captions/blob/master/article-preprint.pdf) for now).
+This repository contains source code corresponding to our article ["Caption this, with TensorFlow!"]( https://www.oreilly.com/learning/caption-this-with-tensorflow) (publishing soon check out our [article preprint](https://github.com/mlberkeley/oreilly-captions/blob/master/article-preprint.pdf) for now).
 
 # Git Basics
 1. Go to your home directory with just a `cd` command
