@@ -15,7 +15,7 @@ Install Docker using the platform-specific installation instructions for Docker 
 
 ### Option A: Use our pre-built Docker image from Docker Hub
 
-2. After installing Docker, pull a prebuilt image from our Docker Hub by entering:
+3. After installing Docker, pull a prebuilt image from our Docker Hub by entering:
 
     ```
     docker pull mlatberkeley/showandtell
@@ -23,7 +23,7 @@ Install Docker using the platform-specific installation instructions for Docker 
 
     You will need a Docker Hub account in order to pull the image (get one [here](https://hub.docker.com/)). If it's your first time pulling a Docker image from Docker Hub you will need to login to your Docker Hub account from your terminal with `docker login`, and follow the username and password prompt.
 
-3. To run the pulled image (after cloning and downloading the repository) enter
+4. To run the pulled image (after cloning and downloading the repository) enter
 
     ```
     docker run -it -p 8888:8888 -v <path to repo>:/root mlatberkeley/showandtell
@@ -31,7 +31,7 @@ Install Docker using the platform-specific installation instructions for Docker 
 
     where `<path to repo>` should be the __absolute path__ to your cloned repository. If you followed our **Git Basics** section the path should be `<path to your home directory>/oreilly-captions`.
 
-4. After building, starting, and attaching to the appropriate Docker container, run the provided Jupyter notebooks by entering
+5. After building, starting, and attaching to the appropriate Docker container, run the provided Jupyter notebooks by entering
 
     ```
     jupyter notebook --ip 0.0.0.0
@@ -42,7 +42,7 @@ Install Docker using the platform-specific installation instructions for Docker 
 ### Option B: Download and build your own Docker image from our GitHub repo
 If you want to build a GPU or CPU-based Docker image of your own, you can use the Dockerfiles provided in the `/dockerfiles/` subdirectory of our GitHub repo.
 
-2. After cloning the repo to your machine, enter
+3. After cloning the repo to your machine, enter
 
     ```
     docker build -t <image_name> ./dockerfiles/
@@ -50,7 +50,7 @@ If you want to build a GPU or CPU-based Docker image of your own, you can use th
 
     where `<image_name>` is either `gpu` or `cpu`. (Note that, in order to run these files on your GPU, you'll need to have a compatible GPU, with drivers installed and configured properly [as described in TensorFlow's documentation](https://www.tensorflow.org/install/).)
 
-3. Run the Docker image by entering
+4. Run the Docker image by entering
 
     ```
     docker run -it -p 8888:8888 -v <path to repo>:/root <image_name>
@@ -58,7 +58,7 @@ If you want to build a GPU or CPU-based Docker image of your own, you can use th
 
     where `<image_name>` is either `gpu` or `cpu`, depending on the image you built in the last step.
 
-4. After building, starting, and attaching to the appropriate Docker container, run the provided Jupyter notebooks by entering
+5. After building, starting, and attaching to the appropriate Docker container, run the provided Jupyter notebooks by entering
 
     ```
     jupyter notebook --ip 0.0.0.0
