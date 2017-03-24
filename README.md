@@ -6,7 +6,8 @@ This repository contains source code corresponding to our article ["Caption this
 
 2. Clone the repository by entering
 
-    ```git clone https://github.com/mlberkeley/oreilly-captions.git
+    ```
+    git clone https://github.com/mlberkeley/oreilly-captions.git
     ```
 
 # Docker (highly recommended)
@@ -16,21 +17,24 @@ Install Docker using the platform-specific installation instructions for Docker 
 
 2. After installing Docker, pull a prebuilt image from our Docker Hub by entering:
 
-    ```docker pull mlatberkeley/showandtell
+    ```
+    docker pull mlatberkeley/showandtell
     ```
 
     You will need a Docker Hub account in order to pull the image (get one [here](https://hub.docker.com/)). If it's your first time pulling a Docker image from Docker Hub you will need to login to your Docker Hub account from your terminal with `docker login`, and follow the username and password prompt.
 
 3. To run the pulled image (after cloning and downloading the repository) enter
 
-    ```docker run -it -p 8888:8888 -v <path to repo>:/root mlatberkeley/showandtell
+    ```
+    docker run -it -p 8888:8888 -v <path to repo>:/root mlatberkeley/showandtell
     ```
 
     where `<path to repo>` should be the __absolute path__ to your cloned repository. If you followed our **Git Basics** section the path should be `<path to your home directory>/oreilly-captions`.
 
 4. After building, starting, and attaching to the appropriate Docker container, run the provided Jupyter notebooks by entering
 
-    ```jupyter notebook --ip 0.0.0.0
+    ```
+    jupyter notebook --ip 0.0.0.0
     ```
 
     and navigate to [http://0.0.0.0:8888](http://0.0.0.0:8888) in your browser.
@@ -40,21 +44,24 @@ If you want to build a GPU or CPU-based Docker image of your own, you can use th
 
 2. After cloning the repo to your machine, enter
 
-    ```docker build -t <image_name> ./dockerfiles/
+    ```
+    docker build -t <image_name> ./dockerfiles/
     ```
 
     where `<image_name>` is either `gpu` or `cpu`. (Note that, in order to run these files on your GPU, you'll need to have a compatible GPU, with drivers installed and configured properly [as described in TensorFlow's documentation](https://www.tensorflow.org/install/).)
 
 3. Run the Docker image by entering
 
-    ```docker run -it -p 8888:8888 -v <path to repo>:/root <image_name>
+    ```
+    docker run -it -p 8888:8888 -v <path to repo>:/root <image_name>
     ```
 
     where `<image_name>` is either `gpu` or `cpu`, depending on the image you built in the last step.
 
 4. After building, starting, and attaching to the appropriate Docker container, run the provided Jupyter notebooks by entering
 
-    ```jupyter notebook --ip 0.0.0.0
+    ```
+    jupyter notebook --ip 0.0.0.0
     ```
 
     and navigate to [http://0.0.0.0:8888](http://0.0.0.0:8888) in your browser.
@@ -65,7 +72,8 @@ If you are using Docker Toolbox as opposed to native Docker you will have to nav
 ### Debugging docker
 If you receive an error of the form:
 
-```WARNING: Error loading config file:/home/rp/.docker/config.json - stat /home/rp/.docker/config.json: permission denied
+```
+WARNING: Error loading config file:/home/rp/.docker/config.json - stat /home/rp/.docker/config.json: permission denied
 Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.26/images/json: dial unix /var/run/docker.sock: connect: permission denied
 ```
 
