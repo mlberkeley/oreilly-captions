@@ -47,18 +47,18 @@ If you want to build a GPU or CPU-based Docker image of your own, you can use th
 3. After cloning the repo to your machine, enter
 
     ```
-    docker build -t <image_name> ./dockerfiles/
+    docker build -t showandtell_<image_type> -f ./dockerfiles/Dockerfile.<image_type> ./dockerfiles/
     ```
 
-    where `<image_name>` is either `gpu` or `cpu`. (Note that, in order to run these files on your GPU, you'll need to have a compatible GPU, with drivers installed and configured properly [as described in TensorFlow's documentation](https://www.tensorflow.org/install/).)
+    where `<image_type>` is either `gpu` or `cpu`. (Note that, in order to run these files on your GPU, you'll need to have a compatible GPU, with drivers installed and configured properly [as described in TensorFlow's documentation](https://www.tensorflow.org/install/).)
 
 4. Run the Docker image by entering
 
     ```
-    docker run -it -p 8888:8888 -v <path to repo>:/root <image_name>
+    docker run -it -p 8888:8888 -v <path to repo>:/root showandtell_<image_type>
     ```
 
-    where `<image_name>` is either `gpu` or `cpu`, depending on the image you built in the last step.
+    where `<image_type>` is either `gpu` or `cpu`, depending on the image you built in the last step.
 
 5. After building, starting, and attaching to the appropriate Docker container, run the provided Jupyter notebooks by entering
 
