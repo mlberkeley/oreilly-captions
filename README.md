@@ -96,3 +96,6 @@ Additionally, you will need the corresponding captions for these images (`result
 In order to run the `3. O'Reilly Generate from image.ipynb` notebook you will need to download a pretrained TensorFlow model for [VGG-16](https://drive.google.com/file/d/0B2vTU3h54lTyaDczbFhsZFpsUGs/view?usp=sharing) generated from the original Caffe model from the VGG-16 paper.
 
 Place all of these downloads in the `./data/` directory.
+
+# Pretrained Weights:
+We've trained the caption generator (w/o training VGG-16 End2End) to 500 epochs, and we've placed the resulting checkpoint files in `./models/tensorflow`. You should experience an average reconstruction loss of ~1.75-1.85.
