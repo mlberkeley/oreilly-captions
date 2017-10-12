@@ -3,3 +3,11 @@
 *.h5
 *.json
 *.mat
+
+.local/*
+.ipynb_checkpoints/*
+.ipython/*
+
+data/*
+
+models/*
